@@ -10,7 +10,7 @@ services:
       - key: PORT
         value: 3000
       - key: APP_BASE_URL
-        value: https://vasup.franktest.xyz
+        sync: false # set to the actual public URL/domain you deploy this to
       - key: SESSION_SECRET
         generateValue: true
       - key: SADMIN_EMAIL

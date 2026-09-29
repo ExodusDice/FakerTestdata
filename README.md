@@ -35,8 +35,8 @@ admin token-usage log).
 
 ## Deploying
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for hosting this on `vasup.franktest.xyz` via Render + Namecheap DNS
-(the `Dockerfile` and `render.yaml` in this repo are set up for that).
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for hosting this on a Docker-capable host (the `Dockerfile` and
+`render.yaml` in this repo are ready for that - swap in whatever host/domain you have available).
 
 ## Data storage
 
