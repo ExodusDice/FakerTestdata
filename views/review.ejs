@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Review registration - VASUP-Testdata' }) %></head>
+<body>
+<div class="auth-shell">
+  <div class="auth-card" style="max-width:480px;">
+    <h1>Review registration</h1>
+    <% if (used) { %>
+      <div class="notice-box">This request has already been decided.</div>
+    <% } else { %>
+      <table style="margin-bottom:16px;">
+        <tr><th>Name</th><td><%= candidate.name %></td></tr>
+        <tr><th>Email</th><td><%= candidate.email %></td></tr>
+        <tr><th>Position</th><td><%= candidate.position %></td></tr>
+        <tr><th>Reason</th><td><%= candidate.reason || '-' %></td></tr>
+      </table>
+      <form method="post" action="/admin/review/<%= token %>" style="display:flex; gap:10px;">
+        <button class="btn" name="decision" value="approve" type="submit" style="flex:1;">Approve</button>
+        <button class="btn danger" name="decision" value="reject" type="submit" style="flex:1;">Reject</button>
+      </form>
+    <% } %>
+    <div class="auth-links"><a href="/login">Back to login</a></div>
+  </div>
+</div>
+</body>
+</html>

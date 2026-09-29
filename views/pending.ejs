@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Awaiting approval - VASUP-Testdata' }) %></head>
+<body>
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Request submitted</h1>
+    <p>Thanks, <b><%= name %></b>. Your request has been sent to the VASUP-Testdata approver.</p>
+    <p>Once approved, login credentials will be emailed to <b><%= email %></b>, followed by a
+       confirmation email letting you set your own password.</p>
+    <div class="auth-links"><a href="/login">Back to login</a></div>
+  </div>
+</div>
+</body>
+</html>

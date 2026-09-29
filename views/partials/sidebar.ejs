@@ -1,0 +1,17 @@
+<div class="sidebar">
+  <div class="brand">VASUP-Testdata</div>
+  <div class="brand-sub">AI Mock Data Assistant</div>
+  <a href="/portal" class="<%= active === 'portal' ? 'active' : '' %>">💬 New / Chat</a>
+  <a href="/manual" class="<%= active === 'manual' ? 'active' : '' %>">📘 Prompt Structure Manual</a>
+  <% if (['admin','sadmin'].includes(user.role)) { %>
+    <a href="/admin" class="<%= active === 'admin' ? 'active' : '' %>">🛠 Admin Portal</a>
+  <% } %>
+  <form action="/logout" method="post" style="margin-top:10px;">
+    <a href="#" onclick="this.closest('form').submit(); return false;">↪ Logout</a>
+  </form>
+  <div class="who">
+    Signed in as<br/>
+    <b><%= user.name || user.username || user.email %></b><br/>
+    <%= user.role %>
+  </div>
+</div>

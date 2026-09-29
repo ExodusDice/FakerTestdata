@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Admin - VASUP-Testdata' }) %></head>
+<body>
+<div class="app-shell">
+  <%- include('partials/sidebar', { user, active: 'admin' }) %>
+  <div class="main">
+    <h1>Admin Portal</h1>
+
+    <div class="card">
+      <b>System status</b>
+      <div style="margin-top:8px; font-size:13px;">
+        SMTP: <span class="badge <%= smtpConfigured ? 'approved' : 'pending' %>"><%= smtpConfigured ? 'configured' : 'mock outbox (not configured)' %></span>
+        &nbsp; AI: <span class="badge <%= aiConfigured ? 'approved' : 'pending' %>"><%= aiConfigured ? 'live (Anthropic API)' : 'offline mock generator' %></span>
+        &nbsp; Total tokens used: <b><%= totalTokens %></b>
+      </div>
+    </div>
+
+    <div class="card">
+      <b>Pending approvals (<%= pending.length %>)</b>
+      <table style="margin-top:10px;">
+        <tr><th>Name</th><th>Email</th><th>Position</th><th>Reason</th><th>Requested</th><th>Action</th></tr>
+        <% pending.forEach(p => { %>
+          <tr>
+            <td><%= p.name %></td>
+            <td><%= p.email %></td>
+            <td><%= p.position %></td>
+            <td><%= p.reason || '-' %></td>
+            <td><%= new Date(p.createdAt).toLocaleString() %></td>
+            <td>
+              <form method="post" action="/admin/users/<%= p.id %>/approve" style="display:inline;"><button class="btn small">Approve</button></form>
+              <form method="post" action="/admin/users/<%= p.id %>/reject" style="display:inline;"><button class="btn small danger">Reject</button></form>
+            </td>
+          </tr>
+        <% }) %>
+        <% if (!pending.length) { %><tr><td colspan="6">No pending requests.</td></tr><% } %>
+      </table>
+    </div>
+
+    <div class="card">
+      <b>All testers &amp; admins</b>
+      <% if (user.role === 'sadmin') { %>
+        <form method="post" action="/admin/users" style="margin:12px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:end;">
+          <div class="field" style="margin:0;"><label>Name</label><input name="name" required /></div>
+          <div class="field" style="margin:0;"><label>Email</label><input name="email" type="email" required /></div>
+          <div class="field" style="margin:0;">
+            <label>Position</label>
+            <select name="position"><option>Jr</option><option>Mid</option><option>Sr</option></select>
+          </div>
+          <div class="field" style="margin:0;">
+            <label>Role</label>
+            <select name="role"><option value="tester">tester</option><option value="admin">admin</option></select>
+          </div>
+          <button class="btn" type="submit">Create user</button>
+        </form>
+      <% } %>
+      <table>
+        <tr><th>Name</th><th>Email</th><th>Role</th><th>Position</th><th>Status</th><th>Actions</th></tr>
+        <% users.forEach(u => { %>
+          <tr>
+            <td><%= u.name %></td>
+            <td><%= u.email %></td>
+            <td><%= u.role %></td>
+            <td><%= u.position || '-' %></td>
+            <td><span class="badge <%= u.status %>"><%= u.status %></span></td>
+            <td>
+              <% if (u.status === 'banned') { %>
+                <form method="post" action="/admin/users/<%= u.id %>/unban" style="display:inline;"><button class="btn small">Unban</button></form>
+              <% } else if (u.status === 'approved') { %>
+                <form method="post" action="/admin/users/<%= u.id %>/ban" style="display:inline;"><button class="btn small danger">Ban</button></form>
+              <% } %>
+              <% if (user.role === 'sadmin') { %>
+                <form method="post" action="/admin/users/<%= u.id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this user permanently?');"><button class="btn small danger">Delete</button></form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+    </div>
+
+    <div class="card">
+      <b>Token usage by user</b>
+      <table style="margin-top:10px;">
+        <tr><th>Email</th><th>Requests</th><th>Tokens used</th></tr>
+        <% usageByUser.forEach(u => { %>
+          <tr><td><%= u.email %></td><td><%= u.requests %></td><td><%= u.tokens %></td></tr>
+        <% }) %>
+        <% if (!usageByUser.length) { %><tr><td colspan="3">No usage yet.</td></tr><% } %>
+      </table>
+    </div>
+
+    <div class="card">
+      <b>Recent generations (token usage log)</b>
+      <table style="margin-top:10px;">
+        <tr><th>When</th><th>User</th><th>Project</th><th>Mode</th><th>Model</th><th>Tokens</th></tr>
+        <% recentUsage.forEach(t => { %>
+          <tr>
+            <td><%= new Date(t.createdAt).toLocaleString() %></td>
+            <td><%= t.userEmail %></td>
+            <td><%= t.projectName %></td>
+            <td><%= t.mode %></td>
+            <td><%= t.model %></td>
+            <td><%= t.tokensUsed %></td>
+          </tr>
+        <% }) %>
+        <% if (!recentUsage.length) { %><tr><td colspan="6">No usage yet.</td></tr><% } %>
+      </table>
+    </div>
+
+    <div class="card">
+      <b>Recent email log</b>
+      <table style="margin-top:10px;">
+        <tr><th>Sent at</th><th>To</th><th>Subject</th><th>Status</th></tr>
+        <% recentEmails.forEach(e => { %>
+          <tr>
+            <td><%= new Date(e.sentAt).toLocaleString() %></td>
+            <td><%= e.to %></td>
+            <td><%= e.subject %></td>
+            <td><span class="badge <%= e.status === 'sent' ? 'approved' : 'pending' %>"><%= e.status %></span></td>
+          </tr>
+        <% }) %>
+        <% if (!recentEmails.length) { %><tr><td colspan="4">No emails yet.</td></tr><% } %>
+      </table>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

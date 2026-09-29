@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Login - VASUP-Testdata' }) %></head>
+<body>
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>VASUP-Testdata</h1>
+    <div class="sub">AI test data agent for VASUP Senior Testers</div>
+
+    <% if (error) { %><div class="error-box"><%= error %></div><% } %>
+    <% if (notice) { %><div class="notice-box"><%= notice %></div><% } %>
+
+    <form method="post" action="/login">
+      <div class="field">
+        <label>VASUP email (or admin username)</label>
+        <input type="text" name="identifier" placeholder="name@vasup.co.th" required autofocus />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" required />
+      </div>
+      <button class="btn" type="submit" style="width:100%;">Sign in</button>
+    </form>
+
+    <div class="auth-links">
+      New tester? <a href="/register">Request access</a> &middot;
+      <a href="/forgot-password">Forgot password?</a>
+    </div>
+
+    <div class="notes-block">
+      <b>Notes</b>
+      In future release we will have AI check the project name and all the doc with actual reference
+      from another web portal. But for now we will use this — that is, AI will check all the reference
+      amount other VASUP AI TOOLS.
+    </div>
+  </div>
+</div>
+</body>
+</html>

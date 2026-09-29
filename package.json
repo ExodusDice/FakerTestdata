@@ -1,0 +1,26 @@
+{
+  "name": "vasup-testdata",
+  "version": "1.0.0",
+  "description": "VASUP-Testdata - AI agent web portal for generating mock/test data for VASUP banking projects",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "mammoth": "^1.8.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "pdf-parse": "^1.1.1",
+    "uuid": "^10.0.0"
+  }
+}

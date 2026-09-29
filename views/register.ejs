@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Request Access - VASUP-Testdata' }) %></head>
+<body>
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Request access</h1>
+    <div class="sub">Registration is reviewed by the VASUP-Testdata approver before you can log in.</div>
+
+    <% if (error) { %><div class="error-box"><%= error %></div><% } %>
+
+    <form method="post" action="/register">
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" name="name" required />
+      </div>
+      <div class="field">
+        <label>VASUP email</label>
+        <input type="email" name="email" placeholder="name@vasup.co.th" required />
+      </div>
+      <div class="field">
+        <label>Position</label>
+        <select name="position">
+          <option value="Jr">Junior Tester</option>
+          <option value="Mid">Mid Tester</option>
+          <option value="Sr">Senior Tester</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Reason for access (optional)</label>
+        <textarea name="reason" rows="3" placeholder="Project / team you're testing for"></textarea>
+      </div>
+      <button class="btn" type="submit" style="width:100%;">Submit for approval</button>
+    </form>
+
+    <div class="auth-links"><a href="/login">Back to login</a></div>
+  </div>
+</div>
+</body>
+</html>

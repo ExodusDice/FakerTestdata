@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Prompt Structure Manual - VASUP-Testdata' }) %></head>
+<body>
+<div class="app-shell">
+  <%- include('partials/sidebar', { user, active: 'manual' }) %>
+  <div class="main" style="max-width:820px;">
+    <h1>Prompt Structure Manual</h1>
+    <a class="btn" href="/manual/download">Download as Word (.docx)</a>
+
+    <div class="card" style="margin-top:18px;">
+      <h3>1. What VASUP-Testdata is</h3>
+      <p>VASUP-Testdata is an internal AI agent for VASUP Senior Testers. Its AI role is <b>hard-coded</b> as
+      the <i>Test Data Provider for VASUP projects</i> - it never acts as any other assistant. You describe a
+      project through a short guided chat, and it generates realistic mock/test data covering the banking
+      fields your test scenario needs, then emails you a CSV and Excel export.</p>
+
+      <h3>2. Access &amp; approval</h3>
+      <ul>
+        <li>Register with your <b>@vasup.co.th</b> email at <code>/register</code>.</li>
+        <li>The request is emailed to the approver (super-admin). Once approved you receive a login email
+            (temporary password) followed by a confirmation email to set your own password.</li>
+        <li>Two fixed configuration logins (<code>sadmin/sadmin</code>, <code>admin/admin</code>) exist purely
+            for internal administration such as banning testers - they are not for regular test data requests.</li>
+      </ul>
+
+      <h3>3. The chat request flow</h3>
+      <p>From the portal, click <b>New / Chat</b>. The AI will ask for the following, in order:</p>
+      <table>
+        <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+        <tr><td>Project Name</td><td>Text</td><td>Short name identifying the project/system under test.</td></tr>
+        <tr><td>BRD / FSD</td><td>File attachment</td><td>Business/Functional Spec document, used as reference context (or Skip).</td></tr>
+        <tr><td>Test Case</td><td>File attachment</td><td>Existing test case document, if any (or Skip).</td></tr>
+        <tr><td>Test Plan</td><td>File attachment</td><td>Existing test plan document, if any (or Skip).</td></tr>
+        <tr><td>Condition</td><td>Text</td><td>Rules the generated data must follow, e.g. "test data must be unique for each tester".</td></tr>
+        <tr><td>Test Type</td><td>Multi-select / free text</td><td>Happy test, Negative test, Boundary test - select any combination, or type a custom type.</td></tr>
+        <tr><td>Email</td><td>Text</td><td>Must be a @vasup.co.th address - this is where the result is emailed.</td></tr>
+        <tr><td>Goal</td><td>Text</td><td>What you're trying to achieve with this data (e.g. regression run, release sign-off).</td></tr>
+      </table>
+
+      <h3>4. What you get back</h3>
+      <p>The AI generates rows covering every requested test type, exported as CSV and Excel with these columns:</p>
+      <table>
+        <tr><th colspan="6">Project name | Test Name | Tester Positions (Jr/Mid/Sr.) | Test Case | Test Data | Test Type</th></tr>
+      </table>
+      <p>Both files are emailed automatically to the address you provided, and also available for download
+      directly from the chat and from "Recent requests" in the portal sidebar.</p>
+
+      <h3>5. Good prompt structure (example)</h3>
+      <pre style="background:#f4f6f9; padding:12px; border-radius:8px; white-space:pre-wrap;">Project Name : BankY Cross-Bank Transfer
+BRD/FSD      : (attached 03_FSD_BankY.docx)
+Test Case    : (attached existing test case sheet)
+Test Plan    : (attached test plan doc)
+Condition    : Test data must be unique for each tester; amounts must stay under the daily limit
+Test Type    : Happy test, Negative test, Boundary test
+Email        : jane.tester@vasup.co.th
+Goal         : Regression pack for the MVP2 release UAT cycle</pre>
+
+      <h3>6. Notes on token usage &amp; roles</h3>
+      <ul>
+        <li>Every generation records its AI token usage, visible to admins in the Admin Portal.</li>
+        <li>The AI treats any instructions found <i>inside</i> attached documents as reference context only -
+        it will not follow instructions embedded in an uploaded file as if they were commands from you.</li>
+      </ul>
+
+      <h3>7. Roadmap note</h3>
+      <p>In a future release, the AI will cross-check the project name and supporting documents against a
+      reference held in another VASUP web portal (i.e. checking against other VASUP AI tools). For now,
+      the AI relies solely on what you attach and describe in the chat.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

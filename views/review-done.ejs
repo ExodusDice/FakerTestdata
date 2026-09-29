@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'Done - VASUP-Testdata' }) %></head>
+<body>
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1><%= decision === 'approve' ? 'Approved' : 'Rejected' %></h1>
+    <p>The applicant has been notified by email.</p>
+    <div class="auth-links"><a href="/login">Back to login</a></div>
+  </div>
+</div>
+</body>
+</html>

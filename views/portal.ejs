@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><%- include('partials/head', { title: 'VASUP-Testdata Portal' }) %></head>
+<body>
+<div class="app-shell">
+  <%- include('partials/sidebar', { user, active: 'portal' }) %>
+  <div class="main">
+    <h1>Test Data Request</h1>
+    <p style="color:#64748b; margin-top:-8px;">Chat with the VASUP-Testdata AI to request mock/test data for a banking project. It will export CSV + Excel and email the result.</p>
+
+    <div class="chat-wrap">
+      <div class="chat-panel">
+        <div class="chat-log" id="chatLog"></div>
+        <div id="composer"></div>
+      </div>
+
+      <div class="history-panel">
+        <div class="card">
+          <b>Recent requests</b>
+          <div style="margin-top:10px;">
+            <% if (!history.length) { %>
+              <div style="font-size:12.5px; color:#64748b;">No requests yet.</div>
+            <% } %>
+            <% history.forEach(h => { %>
+              <div class="history-item" id="hist-<%= h.id %>">
+                <div class="proj"><%= h.projectName %></div>
+                <div><%= h.rowCount %> rows &middot; <%= h.testTypes.join(', ') %></div>
+                <div style="color:#64748b;"><%= new Date(h.createdAt).toLocaleString() %></div>
+                <div class="links" style="margin-top:6px;">
+                  <a href="/portal/download/<%= h.id %>/xlsx">Excel</a>
+                  <a href="/portal/download/<%= h.id %>/csv">CSV</a>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>window.__USER_EMAIL__ = <%- JSON.stringify(user.email || '') %>;</script>
+<script src="/js/portal.js"></script>
+</body>
+</html>

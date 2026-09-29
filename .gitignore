@@ -1,0 +1,10 @@
+node_modules/
+.env
+data/db.json
+data/uploads/*
+data/exports/*
+data/outbox/*
+!data/uploads/.gitkeep
+!data/exports/.gitkeep
+!data/outbox/.gitkeep
+*.log
