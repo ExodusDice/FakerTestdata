@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: vasup-testdata
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: APP_BASE_URL
+        value: https://vasup.franktest.xyz
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SADMIN_EMAIL
+        value: wisanu.a@vasup.co.th
+      - key: ADMIN_EMAIL
+        value: admin@vasup.co.th
+      - key: SADMIN_USERNAME
+        value: sadmin
+      - key: SADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_SECURE
+        value: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        value: "VASUP-Testdata <no-reply@vasup.co.th>"
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5-5
+    # Render's free plan has no persistent disk - data/ resets on every deploy/restart.
+    # Uncomment below on a paid plan (Starter+) to keep users/requests/uploads across deploys:
+    # disk:
+    #   name: vasup-testdata-data
+    #   mountPath: /app/data
+    #   sizeGB: 1
